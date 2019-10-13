@@ -1,0 +1,22 @@
+<listaFomule commenti="Ancora una versione di sviluppo" data="13/09/2019" titolo="Formule FISICHE Gravitas" versione="0.1">
+    <formula par1="Lavoro" par2="Lavoro" par3="00" id="1" >
+        <datiNecessari>
+            <datoNecessario>Base</datoNecessario>
+            <datoNecessario>Altezza</datoNecessario>
+        </datiNecessari>
+        <testoFormula>base * altezza</testoFormula>
+    </formula>
+
+    <formula par1="Lavoro" par2="Potenza" par3="00" id="2">
+        <datiNecessari>
+            <datoNecessario>Lavoro</datoNecessario>
+            <datoNecessario>Tempo</datoNecessario>
+        </datiNecessari>
+        <testoFormula>lavoro / tempo</testoFormula>
+    </formula>
+</listaFomule>
+<!-- 
+    par1 = Argomento
+    par2 = Dato da ottenere
+    par3 = Jolly
+-->

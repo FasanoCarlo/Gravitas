@@ -1,0 +1,14 @@
+<root>
+    <costante>
+        <nome>Pi Greco</nome>
+        <paroleChiave>pi,pigreco</paroleChiave>
+        <valore>3.14159</valore>
+        <commento>Costante inutile perche Gravitas sostituisce gia automaticamente 'pi' com math.pi</commento>
+    </costante>
+    <costante>
+        <nome>Accelerazione di Gravità</nome>
+        <paroleChiave>acc_grav,cost_acc_grav</paroleChiave>
+        <valore>9.8</valore>
+        <commento>Nessun commento</commento>
+    </costante>
+</root>

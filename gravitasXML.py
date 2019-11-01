@@ -7,11 +7,19 @@ class FileXML:
     nomeFile = None
     tree = None
     root = None
-    def __init__(self, nomeFile):  
-        self.path = os.path.dirname(os.path.realpath(__file__))
-        self.nomeFile = os.path.join(self.path, nomeFile)
-        self.tree = et.parse(self.nomeFile)
-        self.root = self.tree.getroot()
+    errore_inizializzazione = False
+    def __init__(self, nomeFile):
+        try:
+            self.path = os.path.dirname(os.path.realpath(__file__))
+            self.nomeFile = os.path.join(self.path, nomeFile)
+            self.tree = et.parse(self.nomeFile)
+            self.root = self.tree.getroot()
+        except et.ParseError:
+            print("!!! Errore durante la lettura di " + nomeFile + " !!!")
+            self.errore_inizializzazione = True
+
+    def minuscolo(self, stringa):
+        return str(stringa).lower()
 
     def confermaRiuscitaOperazione(self):
         print("Path: " + self.path)
@@ -27,19 +35,25 @@ class FileXML:
                     ritorno.append(element.text)
         return ritorno
 
-    def trovaFormule_Par1Par2(self, forma, tipo):
+    def trovaFormule_Par1Par2(self, par1 = '00', par2 = '00', par3 = '00'):
         array_finale = []
+        par1 = self.minuscolo(par1)
+        par2 = self.minuscolo(par2)
+        par3 = self.minuscolo(par3)
         for child in self.root:
-            if child.attrib['par1'] == forma and child.attrib['par2'] == tipo:
+            if self.minuscolo(child.attrib['par1']) == par1 and self.minuscolo(child.attrib['par2']) == par2 and self.minuscolo(child.attrib['par3']) == par3:
                 for element in child:
                     if element.tag == 'testoFormula':
                         array_finale.append(element.text)
         return array_finale
 
-    def trovaParametri_Par1Par2(self, forma, tipo):
+    def trovaParametri_Par1Par2(self, par1 = '00', par2 = '00', par3 = '00'):
         array_finale = []
+        par1 = self.minuscolo(par1)
+        par2 = self.minuscolo(par2)
+        par3 = self.minuscolo(par3)
         for child in self.root:
-            if child.attrib['par1'] == forma and child.attrib['par2'] == tipo:
+            if self.minuscolo(child.attrib['par1']) == par1 and self.minuscolo(child.attrib['par2']) == par2 and self.minuscolo(child.attrib['par3']) == par3:
                 for element in child:
                     if element.tag == 'datiNecessari':
                         for datoNecessario in element:

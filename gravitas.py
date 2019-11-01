@@ -7,14 +7,20 @@ import gravitasXML as gxml
 import os
 import platform
 
+# Presentazione Programma
+print("Gravitas 2019")
+print("Programma italiano per la fisica di base")
+print()
+
 # Operazioni Preliminari
 geoXML = gxml.FileXML("xml/formule_geometriche.xml")
 fisXML = gxml.FileXML("xml/formule_fisiche.xml")
-variabili_utente = {}
+perXML = gxml.FileXML("xml/formule_personalizzate.xml")
+if geoXML.errore_inizializzazione == True or fisXML.errore_inizializzazione == True or perXML.errore_inizializzazione == True:
+    exit(1)
 costanti = gxml.FileXML("xml/costanti.xml").ottieniCostanti()
+variabili_utente = {} # Variabili impostate dall'utente
 nomeFile_Predefinito = None
-dataOraAttuale = datetime.now()
-
 
 # Matematica e Logica di Base
 def null(var):
@@ -60,6 +66,12 @@ def formula_finale(formula, array_dati):
         formula = formula.replace(dato, str(array_dati[dato]))
     return formula
 
+def valore_assoluto(x):
+    if x < 0:
+        return x * (-1)
+    else:
+        return x
+
 def calcolatrice_libera(loop): # Bool loop (eseguire in loop la calcolatrice?)
     if loop == True:
         while True:
@@ -82,20 +94,23 @@ def calcolatrice_scientifica(a, dati, considerareVariabiliUtente):
     if considerareVariabiliUtente == True:
         for var in variabili_utente:
             a = a.replace(var, str(variabili_utente[var]['risultato']))
+    #print("Variabili Utente",a) #DEBUG
     # Immissioni Costanti
     for final in costanti:
         chiavi = final.split(',')
         for chiave in chiavi:
             a = a.replace(chiave, str(costanti[final]))
     datiMessi = a
+    #print("Immissione Costanti", a) #DEBUG
     # Risoluzione Potenze
     if "^" in a:
         array_pezzi = a.split(" ")
         for stringa in array_pezzi:
             if "^" in stringa:
                 array_pezzi_potenza = stringa.split("^")
-                numero_finale = elevazione_potenza(float(array_pezzi_potenza[0]), int(array_pezzi_potenza[1]))
+                numero_finale = elevazione_potenza(eval(array_pezzi_potenza[0]), int(array_pezzi_potenza[1]))
                 a = a.replace(stringa, str(numero_finale))
+    #print("Potenze",a) #DEBUG
     # Risoluzione Radici Quadrate
     if "VV" in a:
         radici = a.split("VV")
@@ -105,6 +120,7 @@ def calcolatrice_scientifica(a, dati, considerareVariabiliUtente):
                 a = a.replace("VV" + radici[i] + "VV", str(radice))
             else:
                 pass
+    #print("Radice Quadrata", a) #DEBUG
     # Risoluzione Coseno
     if "CC" in a:
         coseni = a.split("CC")
@@ -114,20 +130,30 @@ def calcolatrice_scientifica(a, dati, considerareVariabiliUtente):
                 a = a.replace("CC" + coseni[i] + "CC", str(coseno))
             else:
                 pass
+    #print("Coseno", a) # DEBUG
+    # Risoluzione Coseno
+    if "|" in a:
+        v_assoluti = a.split("|")
+        for i in range(len(v_assoluti)):
+            if i % 2 != 0 and i != 0:
+                v_assoluto = valore_assoluto(eval(v_assoluti[i]))
+                a = a.replace("|" + v_assoluti[i] + "|", str(v_assoluto))
+            else:
+                pass
     # Fine
     return {'procedura' : datiMessi, 'risultato' : eval(a)}
 
 
 # Funzioni Geometriche
 
-def formula(par1, par2, dati, file_XML):
-    Parametro1 = par1.capitalize()
-    Parametro2 = par2.capitalize()
+def formula(dati, file_XML, par1 = '00', par2 = '00', par3 = '00'):
     try:
-        testoFormula = file_XML.trovaFormule_Par1Par2(Parametro1,Parametro2)
-        testoFormula = testoFormula[0]
+        testoFormula = file_XML.trovaFormule_Par1Par2(par1,par2,par3)
+        # print(testoFormula)
+        testoFormula = testoFormula[0].lower()
         return calcolatrice_scientifica(testoFormula, dati, False)
-    except:
+    except Exception as e:
+        riporta_eccezione(e.args)
         return {'procedura' : "Errore Sconosciuto", 'risultato' : "Errore"}
 
 
@@ -201,8 +227,8 @@ def scrivi(nomeFile, testo, eccezioniSilenziose = False):
             print("Permessi Insufficienti")
 
 def riporta_eccezione(STReccezione):
-    fileEccezione = open(dataOraAttuale.strftime("%d.%m.%Y_%H.%M.%S_EccezioneGravitas.txt"), "w")
-    fileEccezione.write(STReccezione)
+    fileEccezione = open(datetime.now().strftime("%d.%m.%Y_%H.%M.%S_EccezioneGravitas.txt"), "w")
+    fileEccezione.write(str(STReccezione))
     fileEccezione.close()
 
 def leggi(nomeFile, eccezioniSilenziose = False):
@@ -244,14 +270,23 @@ def enumero(var):
     except:
         return False
 
-# Presentazione Programma
-print("Gravitas 2019")
-print("Programma italiano per la fisica di base")
-print()
+def inputGravitas(testo_da_mostrare):
+    while True:
+        input_tastiera = input(testo_da_mostrare)
+        if enumero(input_tastiera) == True:
+            return float(input_tastiera) # L'input è un numero
+        elif enumerate(input_tastiera.replace(",", ".")) == True:
+            return float(input_tastiera.replace(",", ".")) # Nell'input era stato usata la virgola al posto del punto. Ora è stato corretto
+        else:
+            for var in variabili_utente: # var --> id
+                if var == input_tastiera:
+                    return float(variabili_utente[var]['risultato'])
+        print("Il dato fornito non è un numero e neanche una variabile. Riprova...")
 
 # Spazio Interazioni...
 
 while True:
+    print()
     INPUT = input("_ Gravitas >>> ")
     if INPUT == 'stoop' or INPUT == 'STOOP' or INPUT == 'esci':
         exit(0)
@@ -266,6 +301,7 @@ while True:
                 print("espressione (espressione matematica)")
                 print("geo (formula geometrica)")
                 print("fisica (formula fisica)")
+                print("personalizzata (formula personalizzata - formule_personalizzate.xml)")
                 print("vettore (scomposizione/composizione vettore)")
                 print("pitagora (teorema di pitagora)")
                 print("numero (numero)")
@@ -276,47 +312,74 @@ while True:
                 valoreVariabile = {'procedura' : nomeVariabile + " = " + valoreVariabile['procedura'] + " = " + str(valoreVariabile['risultato']), 'risultato' : valoreVariabile['risultato']}
             
             elif tipo_valore == "geo":
-                tipoGeo = input("Tipo: ")
-                formaGeo = input("Forma: ")
-                array_parametri = geoXML.trovaParametri_Par1Par2(formaGeo, tipoGeo)
-                dizionario_parametri = {}
-                for parametro in array_parametri:
-                    valore = input( parametro + " = ")
-                    dizionario_parametri.update({ parametro.lower():valore })
-                valoreVariabile = formula(formaGeo, tipoGeo, dizionario_parametri, geoXML)
-                valoreVariabile = {'procedura' : nomeVariabile + " = " + valoreVariabile['procedura'] + " = " + str(valoreVariabile['risultato']), 'risultato' : valoreVariabile['risultato']}
-            
-            elif tipo_valore == "numero":
+                tipoGeo = "00"
+                formaGeo = "00"
+                array_parametri = []
                 while True:
-                    valoreVariabile = str(input("Numero: "))
-                    valoreVaraibile = valoreVariabile.replace(",", ".")
-                    if enumero(valoreVariabile) == True:
-                        valoreVariabile = {'procedura': nomeVariabile + " = " + str(float(valoreVariabile)), 'risultato': float(valoreVariabile)}
+                    tipoGeo = input("Tipo (es. Area): ")
+                    formaGeo = input("Forma: ")
+                    array_parametri = geoXML.trovaParametri_Par1Par2(tipoGeo, formaGeo)
+                    testoFormula = geoXML.trovaFormule_Par1Par2(tipoGeo, formaGeo)
+                    if len(testoFormula) == 0:
+                        print("Nessuna Formula trovata...")
+                    elif len(testoFormula) > 1:
+                        print("Attenzione! Sono state trovate " + str(len(testoFormula)) + " formule!!")
+                        print("Verrà usata la seguente: " + testoFormula[0])
                         break
                     else:
-                        print("Valore non accettabile. Assegnazione della variabile annullata. Riprova...")
+                        break
+                try:
+                    dizionario_parametri = {}
+                    testoFormula = testoFormula[0].lower()
+                    for parametro in array_parametri:
+                        valore = inputGravitas( parametro + " = ")
+                        dizionario_parametri.update({ parametro.lower() : valore })
+                    valoreVariabile = calcolatrice_scientifica(testoFormula, dizionario_parametri, False)
+                    valoreVariabile = {'procedura' : nomeVariabile + " = " + valoreVariabile['procedura'] + " = " + str(valoreVariabile['risultato']), 'risultato' : valoreVariabile['risultato']}
+                except:
+                    tipo_valore = "rompi"
+            
+            elif tipo_valore == "numero":
+                valoreVariabile = inputGravitas("Numero: ")
 
             elif tipo_valore == "fisica":
-                print("In caso di dubbi consultare il manuale.")
-                argoFis = input("Argomento: ")
-                datoFis = input("Valore: ")
-                array_parametri = fisXML.trovaParametri_Par1Par2(argoFis, datoFis)
-                dizionario_parametri = {}
-                for parametro in array_parametri:
-                    valore = input( parametro + " = ")
-                    dizionario_parametri.update({ parametro.lower() : valore })
-                valoreVariabile = formula(argoFis, datoFis, dizionario_parametri, fisXML)
-                valoreVariabile = {'procedura' : nomeVariabile + " = " + valoreVariabile['procedura'] + " = " + str(valoreVariabile['risultato']), 'risultato' : valoreVariabile['risultato']}
-            
+                argoFis = "00"
+                datoFis = "00"
+                array_parametri = []
+                while True:
+                    argoFis = input("Argomento: ")
+                    datoFis = input("Valore: ")
+                    array_parametri = fisXML.trovaParametri_Par1Par2(argoFis, datoFis)
+                    testoFormula = fisXML.trovaFormule_Par1Par2(argoFis, datoFis)
+                    if len(testoFormula) == 0:
+                        print("Nessuna Formula trovata...")
+                    elif len(testoFormula) > 1:
+                        print("Attenzione! Sono state trovate " + str(len(testoFormula)) + " formule!!")
+                        print("Verrà usata la seguente: " + testoFormula[0])
+                        break
+                    else:
+                        break
+
+                try:
+                    dizionario_parametri = {}
+                    testoFormula = testoFormula[0].lower()
+                    for parametro in array_parametri:
+                        valore = inputGravitas( parametro + " = ")
+                        dizionario_parametri.update({ parametro.lower() : valore })
+                    valoreVariabile = calcolatrice_scientifica(testoFormula, dizionario_parametri, False)
+                    valoreVariabile = {'procedura' : nomeVariabile + " = " + valoreVariabile['procedura'] + " = " + str(valoreVariabile['risultato']), 'risultato' : valoreVariabile['risultato']}
+                except:
+                    tipo_valore = "rompi"
+                                
             elif tipo_valore == 'vettore':
                 print("Inserisci i dati richiesti. Imposta a zero il dato da ottenere")
                 
                 # INPUT
                 nomeVettore = nomeVariabile
-                VettoreX = float(input("Componente X: "))
-                VettoreY = float(input("Componente Y: "))
-                VettoreModulo = float(input("Modulo: "))
-                VettoreAngolo = float(input("Angolo: "))
+                VettoreX = inputGravitas("Componente X: ")
+                VettoreY = inputGravitas("Componente Y: ")
+                VettoreModulo = inputGravitas("Modulo: ")
+                VettoreAngolo = inputGravitas("Angolo: ")
                 
                 pacchetto_dati = {'vx' : VettoreX, 'vy' : VettoreY, 'modulo' : VettoreModulo, 'angolo' : VettoreAngolo}
                 dati_vettore = scomposizione_vettori(pacchetto_dati)
@@ -329,14 +392,35 @@ while True:
                 break
 
             elif tipo_valore == "pitagora":
-                print("FUNZIONE ANCORA IN BETA")
                 print("Imposta a 0 il valore che desideri conoscere...")
-                ipotenusa = float(input("Ipotenusa: "))
-                cateto1 = float(input("Primo Cateto: "))
-                cateto2 = float(input("Secondo Cateto: "))
+                ipotenusa = inputGravitas("Ipotenusa: ")
+                cateto1 = inputGravitas("Primo Cateto: ")
+                cateto2 = inputGravitas("Secondo Cateto: ")
                 valoreVariabile = teorema_pitagora(ipotenusa, cateto1, cateto2)
 
-            if tipo_valore != "guida" and tipo_valore != "vettore":
+            elif tipo_valore == "personalizzata":
+                print("Usa una formula contenuta nel file 'formule_personalizzate.xml'")
+                print("Il valore predefinito di un parametro (se non lo si è cambiato) è '00'")
+                # Vanno usati input() normali perchè si va ad acquisire il nome dei parametri, non i loro valori
+                par1 = input("Parametro 1: ")
+                par2 = input("Parametro 2: ")
+                par3 = input("Parametro 3: ")
+                array_parametri = perXML.trovaParametri_Par1Par2(par1, par2, par3)
+                dizionario_parametri = {}
+                for parametro in array_parametri:
+                    valore = inputGravitas( parametro + " = ")
+                    dizionario_parametri.update({ parametro.lower() : valore })
+                valoreVariabile = formula(dizionario_parametri, perXML, par1, par2, par3)
+                valoreVariabile = {'procedura' : nomeVariabile + " = " + valoreVariabile['procedura'] + " = " + str(valoreVariabile['risultato']), 'risultato' : valoreVariabile['risultato']}
+            
+            else:
+                tipo_valore = "NN" # Valore non riconosciuto riprovare
+                print("Tipo valore NON riconosciuto")
+
+            if tipo_valore == "rompi":
+                break
+
+            if tipo_valore != "guida" and tipo_valore != "vettore" and tipo_valore != "NN":
                 if input("Confermi [S/n] ? ") != "n":
                     variabili_utente.update({nomeVariabile:valoreVariabile})
                 else:
@@ -403,6 +487,26 @@ while True:
         else:
             os.system('clear')
 
+    elif INPUT == "ricaricaFormule":
+        geoXML = gxml.FileXML("xml/formule_geometriche.xml")
+        fisXML = gxml.FileXML("xml/formule_fisiche.xml")
+        perXML = gxml.FileXML("xml/formule_personalizzate.xml")
+        if geoXML.errore_inizializzazione == True or fisXML.errore_inizializzazione == True or perXML.errore_inizializzazione == True:
+            exit(1)
+        else:
+            print("Formule ricaricate correttamente...")
+        costanti = gxml.FileXML("xml/costanti.xml").ottieniCostanti()
+    
+    elif INPUT == "commenta":
+        nomeFile = None
+        if(nomeFile_Predefinito == None):
+            nomeFile = input("Nome File: ")
+        else:
+            nomeFile = nomeFile_Predefinito
+        
+        commento = input("Inserisci il commento monoriga da inserire: ")
+        appendi(nomeFile, commento)
+
     elif INPUT == "calcola" or INPUT == "espressione":
         # Guida Calcolatrice
         print(" Guida Calcolatrice Scientfica:")
@@ -437,6 +541,8 @@ while True:
         print("                  tabrasa   -   Cancella le varabili memorizzate durante la sessione")
         print("                  pulisci   -   Genera dello spazio vuoto nel terminale")
         print("    calcola - espressione   -   Avvia una calcolatrice scientifica che può usufruire delle variabili già dichiarate")
+        print("          ricaricaFormule   -   Ricarica nel programma i file delle formule")
+        print("                 commenta   -   Scrivi nel file di Output una linea di commento")
         print("                    guida   -   Stampa a video questa guida")
         print()
 

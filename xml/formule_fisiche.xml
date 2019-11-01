@@ -1,4 +1,63 @@
 <listaFomule commenti="Ancora una versione di sviluppo" data="13/09/2019" titolo="Formule FISICHE Gravitas" versione="0.1">
+    
+    <formula par1="Peso" par2="Peso" par3="00" id="1" >
+        <datiNecessari>
+            <datoNecessario>Massa</datoNecessario>
+        </datiNecessari>
+        <testoFormula>Massa * acc_grav</testoFormula>
+    </formula>
+
+    <formula par1="Elasticita" par2="Costante" par3="00" id="1" >
+        <datiNecessari>
+            <datoNecessario>Peso</datoNecessario>
+            <datoNecessario>Allungamento</datoNecessario>
+        </datiNecessari>
+        <testoFormula>Peso / Allungamento</testoFormula>
+    </formula>
+
+    <formula par1="Elasticita" par2="Forza" par3="00" id="1" >
+        <datiNecessari>
+            <datoNecessario>CostanteElastica</datoNecessario>
+            <datoNecessario>Allungamento</datoNecessario>
+        </datiNecessari>
+        <testoFormula>CostanteElastica * Allungamento</testoFormula>
+    </formula>
+
+    <formula par1="Attrito" par2="Costante" par3="00" id="1" >
+        <datiNecessari>
+            <datoNecessario>ForzaPrimoDistacco</datoNecessario>
+            <datoNecessario>ForzaPremente</datoNecessario>
+        </datiNecessari>
+        <testoFormula>ForzaPrimoDistacco / ForzaPremente</testoFormula>
+    </formula>
+
+    <formula par1="Attrito" par2="Costante" par3="00" id="1" >
+        <datiNecessari>
+            <datoNecessario>ForzaPrimoDistacco</datoNecessario>
+            <datoNecessario>ForzaPremente</datoNecessario>
+        </datiNecessari>
+        <testoFormula>ForzaPrimoDistacco / ForzaPremente</testoFormula>
+    </formula>
+
+    <formula par1="Attrito" par2="ForzaAttritoDinamico" par3="00" id="1" >
+        <datiNecessari>
+            <datoNecessario>CostanteAttritoRadente</datoNecessario>
+            <datoNecessario>ForzaPremente</datoNecessario>
+        </datiNecessari>
+        <testoFormula>CostanteAttritoRadente * ForzaPremente</testoFormula>
+    </formula>
+
+    <!-- Inserimento Formule Ordinatamente -->
+
+    <formula par1="Equilibrio" par2="PesoParallelo" par3="00" id="1" >
+        <datiNecessari>
+            <datoNecessario>Peso</datoNecessario>
+            <datoNecessario>Altezza</datoNecessario>
+            <datoNecessario>LatoInclinato</datoNecessario>
+        </datiNecessari>
+        <testoFormula>Peso * Altezza / LatoInclinato</testoFormula>
+    </formula>
+
     <formula par1="Lavoro" par2="Lavoro" par3="00" id="1" >
         <datiNecessari>
             <datoNecessario>Base</datoNecessario>
@@ -13,6 +72,14 @@
             <datoNecessario>Tempo</datoNecessario>
         </datiNecessari>
         <testoFormula>lavoro / tempo</testoFormula>
+    </formula>
+
+    <formula par1="Energia" par2="EnergiaPotenzialeGravitazionale" par3="00">
+        <datiNecessari>
+            <datoNecessario>Massa</datoNecessario>
+            <datoNecessario>Altezza</datoNecessario>
+        </datiNecessari>
+        <testoFormula>massa * altezza * acc_grav</testoFormula>
     </formula>
 </listaFomule>
 <!-- 

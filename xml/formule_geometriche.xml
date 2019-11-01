@@ -129,6 +129,21 @@
         </datiNecessari>
         <testoFormula>diametro * pi</testoFormula>
     </formula>
+    <formula dimensioni="2D" par1="Matematica" par2="Doppio" id="21">
+        <datiNecessari>
+            <datoNecessario>N</datoNecessario>
+        </datiNecessari>
+        <testoFormula>n * 2</testoFormula>
+    </formula>
+    <formula dimensioni="2D" par1="Pianocartesiano" par2="Distanzapunti" id="21">
+        <datiNecessari>
+            <datoNecessario>Xprimo</datoNecessario>
+            <datoNecessario>Yprimo</datoNecessario>
+            <datoNecessario>Xsecondo</datoNecessario>
+            <datoNecessario>Ysecondo</datoNecessario>
+        </datiNecessari>
+        <testoFormula>VV ( xsecondo^2 - xprimo^2 ) + ( ysecondo^2 - yprimo^2 ) VV</testoFormula>
+    </formula>
 </listaFomule>
 <!--
     par1 = Forma

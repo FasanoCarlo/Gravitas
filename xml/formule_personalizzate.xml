@@ -1,0 +1,13 @@
+<listaFomule commenti="Metti le formule che vuoi tu" data="XX/XX/XX" titolo="Formule Personalizzate" versione="0.1">
+    <formula par1="Matematica" par2="Doppio" par3="Angie" id="1" >
+        <datiNecessari>
+            <datoNecessario>X</datoNecessario>
+        </datiNecessari>
+        <testoFormula>x * 2</testoFormula>
+    </formula>
+</listaFomule>
+<!-- 
+    par1 = ? Scrivi cosa significa il Parametro 1. Quello che scrivi qui il computer lo ignorerà. Serve solo a te per capire cosa significa ogni parametro
+    par2 = ? Scrivi cosa significa il Parametro 2. Quello che scrivi qui il computer lo ignorerà. Serve solo a te per capire cosa significa ogni parametro
+    par3 = ? Scrivi cosa significa il Parametro 3. Quello che scrivi qui il computer lo ignorerà. Serve solo a te per capire cosa significa ogni parametro
+-->

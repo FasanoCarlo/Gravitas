@@ -10,6 +10,7 @@ import platform
 # Presentazione Programma
 print("Gravitas 2019")
 print("Programma italiano per la fisica di base")
+print("Scrivere 'aiuto' o 'guida' per saperne di più")
 print()
 
 # Operazioni Preliminari
@@ -527,7 +528,7 @@ while True:
             else:
                 pass
 
-    elif INPUT == "guida":
+    elif INPUT == "guida" or INPUT == "aiuto":
         print()
         print("---------------------- Guida GRAVITAS ----------------------")
         print("              -   COMANDO   -   FUNZIONE   -                ")

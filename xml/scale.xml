@@ -1,0 +1,31 @@
+<listaScale commenti="Scale misure (lunghezza...)" data="XX/XX/XX" titolo="Scale" versione="0.1">
+    <scala tipo="Lunghezza" si="Metri" si_abb="m">
+        <smM esponente="3" nome="Chilometri">Km</smM>
+        <smM esponente="2" nome="Ettometri">hm</smM>
+        <smM esponente="1" nome="Decametri">Dam</smM>
+        <smM esponente="0" nome="Metri">m</smM> <!-- Misura del SI -->
+        <smM esponente="-1" nome="Decimetri">dm</smM>
+        <smM esponente="-2" nome="Centimetri">cm</smM>
+        <smM esponente="-3" nome="Millimetri">mm</smM>
+    </scala>
+
+    <scala tipo="Massa" si="Chilogrammi" si_abb="Kg">
+        <smM esponente="3" nome="Tonnellate">t</smM>
+        <smM esponente="2" nome="Quintali">q</smM>
+        <smM esponente="0" nome="Chilogrammi">Kg</smM>
+        <smM esponente="-1" nome="Ettogrammi">hg</smM>
+        <smM esponente="-2" nome="Decagrammi">dag</smM>
+        <smM esponente="-3" nome="Grammi">g</smM> <!-- Misura del SI -->
+        <smM esponente="-4" nome="Decigrammi">dg</smM>
+        <smM esponente="-5" nome="Centigrammi">cg</smM>
+        <smM esponente="-6" nome="Milligrammi">mg</smM>
+    </scala>
+
+    <scala tipo="Capacità" si="Litri" si_abb="l">
+    </scala>
+</listaScale>
+<!-- 
+    par1 = ? Scrivi cosa significa il Parametro 1. Quello che scrivi qui il computer lo ignorerà. Serve solo a te per capire cosa significa ogni parametro
+    par2 = ? Scrivi cosa significa il Parametro 2. Quello che scrivi qui il computer lo ignorerà. Serve solo a te per capire cosa significa ogni parametro
+    par3 = ? Scrivi cosa significa il Parametro 3. Quello che scrivi qui il computer lo ignorerà. Serve solo a te per capire cosa significa ogni parametro
+-->

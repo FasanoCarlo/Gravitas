@@ -8,6 +8,7 @@ class FileXML:
     tree = None
     root = None
     errore_inizializzazione = False
+
     def __init__(self, nomeFile):
         try:
             self.path = os.path.dirname(os.path.realpath(__file__))
@@ -88,3 +89,88 @@ class FileXML:
                     value = element.text
             ritorno.update({key:value})
         return ritorno
+
+    def listaFormuleGeometria(self):
+        testo = "Formule di Geometria Gravitas:"
+        for child in self.root:
+            testo += "\n" + "ID: " + child.attrib['id']
+            testo += "\n" + "Forma: " + child.attrib['par1']
+            testo += "\n" + "Tipo: " + child.attrib['par2']
+            testo += "\n" + "Dimensioni: " + child.attrib['dimensioni']
+            for element in child:
+                if element.tag == 'datineccesari':
+                    for nec in element:
+                        testo += "\n" + "Dato Necessario: " + nec.text
+                if element.tag == 'testoFormula':
+                    testo += "\n" + "Testo Formula: " + element.text
+            testo += "\n---------------------"
+        return testo
+
+    def listaFormuleFisica(self):
+        testo = "Formule di Fisica Gravitas:"
+        for child in self.root:
+            #testo += "\n" + "ID: " + child.attrib['id']
+            testo += "\n" + "Argomento: " + child.attrib['par1']
+            testo += "\n" + "Valore: " + child.attrib['par2']
+            for element in child:
+                if element.tag == 'datineccesari':
+                    for nec in element:
+                        testo += "\n" + "Dato Necessario: " + nec.text
+                if element.tag == 'testoFormula':
+                    testo += "\n" + "Testo Formula: " + element.text
+            testo += "\n---------------------"
+        return testo
+
+    
+    # Scale e Conversioni
+
+    def ottieniSI_utente(self, tipo_grandezza):
+        for child in self.root:
+            if child.attrib['tipo'] == tipo_grandezza:
+                return child.attrib['si'] +  " (" + child.attrib['si_abb'] +  ")"
+        return "Tipo grandezza non valido"
+
+    def ottieniSI_sis(self, tipo_grandezza):
+        for child in self.root:
+            if child.attrib['tipo'] == tipo_grandezza:
+                return child.attrib['si_abb']
+        return "NonValido"
+
+    def ottieni_multipli_sottomultipli(self, tipo_grandezza):
+        array_finale = [{'nome' : "Chilogrammi", 'abbreviazione' : "Kg"},
+                        {'nome': "Ettogrammi", 'abbreviazione': "hg"}] # Esempio
+        array_finale = []
+
+        for child in self.root:
+            if child.attrib['tipo'] == tipo_grandezza:
+                for element in child:
+                    array_finale.append({'nome' : element.attrib['nome'],
+                                         'abbreviazione' : element.text})
+
+        print(array_finale)
+        return array_finale
+
+    def ottieniK_A(self, tipo_grandezza, partenza):
+        # La partenza è l'unità del SI
+        for child in self.root:
+            print("Child:", child.attrib['tipo'])
+            if child.attrib['tipo'] == tipo_grandezza:
+                for element in child:
+                    print("Element:", '-' + element.text + '-', '-' + partenza + '-')
+                    if element.text == partenza:
+                        return int(element.attrib['esponente'])
+        print("Errore gravitasXML")
+        return 8
+
+    def ottieniK_B(self, tipo_grandezza, arrivo):
+        # La partenza NON è un'unità del SI
+        for child in self.root:
+            #print("Child:", child.attrib['tipo'])
+            if child.attrib['tipo'] == tipo_grandezza:
+                for element in child:
+                    #print("Element:", '-' + element.text + '-', '-' + arrivo + '-')
+                    if element.text == arrivo:
+                        return int(element.attrib['esponente']) * (-1)
+        print("Errore gravitasXML")
+        return 8
+        

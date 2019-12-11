@@ -17,11 +17,13 @@ print()
 geoXML = gxml.FileXML("xml/formule_geometriche.xml")
 fisXML = gxml.FileXML("xml/formule_fisiche.xml")
 perXML = gxml.FileXML("xml/formule_personalizzate.xml")
-if geoXML.errore_inizializzazione == True or fisXML.errore_inizializzazione == True or perXML.errore_inizializzazione == True:
+scalXML = gxml.FileXML("xml/scale.xml")
+if geoXML.errore_inizializzazione == True or fisXML.errore_inizializzazione == True or perXML.errore_inizializzazione == True or scalXML.errore_inizializzazione == True:
     exit(1)
 costanti = gxml.FileXML("xml/costanti.xml").ottieniCostanti()
 variabili_utente = {} # Variabili impostate dall'utente
 nomeFile_Predefinito = None
+
 
 # Matematica e Logica di Base
 def null(var):
@@ -30,16 +32,8 @@ def null(var):
     else:
         return False
 
-def elevazione_potenza(numero_originale, esponente):
-    numero = numero_originale
-    if esponente == 0:
-        return 1
-    elif esponente == 1:
-        return numero
-    for i in range(esponente-1):
-        numero = numero * numero_originale
-        i = i
-    return numero
+def elevazione_potenza(base, esponente):
+    return pow(base, esponente)
 
 def cos(x):
     return math.cos(math.radians(x)) # Coseno (Gradi)
@@ -95,14 +89,14 @@ def calcolatrice_scientifica(a, dati, considerareVariabiliUtente):
     if considerareVariabiliUtente == True:
         for var in variabili_utente:
             a = a.replace(var, str(variabili_utente[var]['risultato']))
-    #print("Variabili Utente",a) #DEBUG
+    #print("Variabili Utente",a) # DEBUG
     # Immissioni Costanti
     for final in costanti:
         chiavi = final.split(',')
         for chiave in chiavi:
             a = a.replace(chiave, str(costanti[final]))
     datiMessi = a
-    #print("Immissione Costanti", a) #DEBUG
+    #print("Immissione Costanti", a) # DEBUG
     # Risoluzione Potenze
     if "^" in a:
         array_pezzi = a.split(" ")
@@ -111,7 +105,7 @@ def calcolatrice_scientifica(a, dati, considerareVariabiliUtente):
                 array_pezzi_potenza = stringa.split("^")
                 numero_finale = elevazione_potenza(eval(array_pezzi_potenza[0]), int(array_pezzi_potenza[1]))
                 a = a.replace(stringa, str(numero_finale))
-    #print("Potenze",a) #DEBUG
+    #print("Potenze",a) # DEBUG
     # Risoluzione Radici Quadrate
     if "VV" in a:
         radici = a.split("VV")
@@ -121,7 +115,7 @@ def calcolatrice_scientifica(a, dati, considerareVariabiliUtente):
                 a = a.replace("VV" + radici[i] + "VV", str(radice))
             else:
                 pass
-    #print("Radice Quadrata", a) #DEBUG
+    #print("Radice Quadrata", a) # DEBUG
     # Risoluzione Coseno
     if "CC" in a:
         coseni = a.split("CC")
@@ -141,6 +135,7 @@ def calcolatrice_scientifica(a, dati, considerareVariabiliUtente):
                 a = a.replace("|" + v_assoluti[i] + "|", str(v_assoluto))
             else:
                 pass
+    #print("Valore Assoluto", a) # DEBUG
     # Fine
     return {'procedura' : datiMessi, 'risultato' : eval(a)}
 
@@ -305,6 +300,7 @@ while True:
                 print("personalizzata (formula personalizzata - formule_personalizzate.xml)")
                 print("vettore (scomposizione/composizione vettore)")
                 print("pitagora (teorema di pitagora)")
+                print("conv (conversione grandezze)")
                 print("numero (numero)")
                 print()
 
@@ -348,8 +344,8 @@ while True:
                 datoFis = "00"
                 array_parametri = []
                 while True:
-                    argoFis = input("Argomento: ")
-                    datoFis = input("Valore: ")
+                    argoFis = input("Argomento: ") # par1
+                    datoFis = input("Valore: ") # par2
                     array_parametri = fisXML.trovaParametri_Par1Par2(argoFis, datoFis)
                     testoFormula = fisXML.trovaFormule_Par1Par2(argoFis, datoFis)
                     if len(testoFormula) == 0:
@@ -398,6 +394,28 @@ while True:
                 cateto1 = inputGravitas("Primo Cateto: ")
                 cateto2 = inputGravitas("Secondo Cateto: ")
                 valoreVariabile = teorema_pitagora(ipotenusa, cateto1, cateto2)
+
+            elif tipo_valore == "conv":
+                print("Conersione a unita' del SI")
+                tipo_grandezza = input("Tipo di grandezza (es. Lunghezza): ")
+                print("Quando verrà richiesto di inserire Multipli o Sottomultipli scrivere l'abbreviazione di ciò che si intende")
+                multiplo_sottomultiplo_partenza = input("Multiplo/Sottomultiplo di partenza: ")
+                multiplo_sottomultiplo_fine = input("Multiplo/Sottomultiplo finale: ")
+                da = inputGravitas("Valore di partenza (" + multiplo_sottomultiplo_partenza + "): ")
+                if multiplo_sottomultiplo_fine == scalXML.ottieniSI_sis(tipo_grandezza):
+                    # Solo un'operazione (moltiplicazione) perchè si desidera sapere in unità del SI
+                    esponente = scalXML.ottieniK_A(tipo_grandezza, multiplo_sottomultiplo_partenza)
+                    v = da * elevazione_potenza(10, esponente)
+                    print(esponente)
+                    print(v)
+                    valoreVariabile = {'risultato' : v, 'procedura' : str(da) + " * 10^" + str(esponente)}
+                elif multiplo_sottomultiplo_partenza == scalXML.ottieniSI_sis(tipo_grandezza):
+                    esponente = scalXML.ottieniK_B(tipo_grandezza, multiplo_sottomultiplo_fine)
+                    v = da * elevazione_potenza(10, esponente)
+                    print(esponente)
+                    print(v)
+                    valoreVariabile = {'risultato' : v, 'procedura' : str(da) + " * 10^(" + str(esponente) + ")"}
+                    
 
             elif tipo_valore == "personalizzata":
                 print("Usa una formula contenuta nel file 'formule_personalizzate.xml'")
@@ -492,7 +510,8 @@ while True:
         geoXML = gxml.FileXML("xml/formule_geometriche.xml")
         fisXML = gxml.FileXML("xml/formule_fisiche.xml")
         perXML = gxml.FileXML("xml/formule_personalizzate.xml")
-        if geoXML.errore_inizializzazione == True or fisXML.errore_inizializzazione == True or perXML.errore_inizializzazione == True:
+        scalXML = gxml.FileXML("xml/scale.xml")
+        if geoXML.errore_inizializzazione == True or fisXML.errore_inizializzazione == True or perXML.errore_inizializzazione == True or scalXML.errore_inizializzazione == True:
             exit(1)
         else:
             print("Formule ricaricate correttamente...")
@@ -528,7 +547,34 @@ while True:
             else:
                 pass
 
-    elif INPUT == "guida" or INPUT == "aiuto":
+    elif INPUT == "formule":
+        stringa = ""
+        while True:
+            gf = input("Geometria o Fisica? [G/F] ")
+            if gf == 'G':
+                stringa = geoXML.listaFormuleGeometria()
+                break
+            elif gf == 'F':
+                stringa = fisXML.listaFormuleFisica()
+                break
+            else:
+                print("'" + gf + "' non riconosciuto. Riprova...")
+            
+        while True:
+            stampare = input("Vuoi scrivere su file? [S/n]")
+            if stampare == 'S' or stampare == 's':
+                nomeFile = input("Nome File di output: ")
+                scrivi(nomeFile, stringa, True)
+                break
+            elif stampare == 'n' or stampare == 'N':
+                break
+            else:
+                print("'" + stampare + "' non riconosciuto. Riprova...")
+
+        print(stringa)
+            
+
+    elif INPUT == "guida" or INPUT == 'aiuto':
         print()
         print("---------------------- Guida GRAVITAS ----------------------")
         print("              -   COMANDO   -   FUNZIONE   -                ")
@@ -544,6 +590,7 @@ while True:
         print("    calcola - espressione   -   Avvia una calcolatrice scientifica che può usufruire delle variabili già dichiarate")
         print("          ricaricaFormule   -   Ricarica nel programma i file delle formule")
         print("                 commenta   -   Scrivi nel file di Output una linea di commento")
+        print("                  formule   -   Stampa tutte le formule geometriche e fisiche caricate")
         print("                    guida   -   Stampa a video questa guida")
         print()
 
@@ -551,10 +598,3 @@ while True:
     else:
         print("Comando NON riconosciuto")
         tipo_valore = "guida"
-    
-
-
-if False:
-    a = calcolatrice_scientifica("CC 30 CC", {'bcm':3}, True)
-    print(a['procedura'])
-    print(a['risultato'])

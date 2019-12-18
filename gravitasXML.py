@@ -58,6 +58,7 @@ class FileXML:
                 for element in child:
                     if element.tag == 'datiNecessari':
                         for datoNecessario in element:
+                            print(datoNecessario.text)
                             array_finale.append(datoNecessario.text)
         return array_finale
 

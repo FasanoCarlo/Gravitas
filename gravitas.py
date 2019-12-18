@@ -9,7 +9,7 @@ import platform
 
 # Presentazione Programma
 print("Gravitas 2019")
-print("Programma italiano per la fisica di base")
+print("Programma per la fisica di base")
 print("Scrivere 'aiuto' o 'guida' per saperne di più")
 print()
 
@@ -315,8 +315,8 @@ while True:
                 while True:
                     tipoGeo = input("Tipo (es. Area): ")
                     formaGeo = input("Forma: ")
-                    array_parametri = geoXML.trovaParametri_Par1Par2(tipoGeo, formaGeo)
-                    testoFormula = geoXML.trovaFormule_Par1Par2(tipoGeo, formaGeo)
+                    array_parametri = geoXML.trovaParametri_Par1Par2(formaGeo, tipoGeo)
+                    testoFormula = geoXML.trovaFormule_Par1Par2(formaGeo, tipoGeo)
                     if len(testoFormula) == 0:
                         print("Nessuna Formula trovata...")
                     elif len(testoFormula) > 1:

@@ -1,25 +1,31 @@
 <listaFomule commenti="Ancora una versione di sviluppo" data="13/09/2019" titolo="Formule GEOMETRICHE Gravitas" versione="0.1">
-    <formula dimensioni="2D" par1="Rettangolo" id="1" par2="Area">
+    <formula dimensioni="2D" par1="Rettangolo" id="1" par2="Area" par3="00">
         <datiNecessari>
             <datoNecessario>Base</datoNecessario>
             <datoNecessario>Altezza</datoNecessario>
         </datiNecessari>
         <testoFormula>base * altezza</testoFormula>
     </formula>
-    <formula dimensioni="2D" par1="Rettangolo" id="2" par2="Perimetro">
+    <formula dimensioni="2D" par1="Rettangolo" id="2" par2="Perimetro" par3="00">
         <datiNecessari>
             <datoNecessario>Base</datoNecessario>
             <datoNecessario>Altezza</datoNecessario>
         </datiNecessari>
         <testoFormula>(base + altezza)*2</testoFormula>
     </formula>
-    <formula dimensioni="2D" par1="Quadrato" id="3" par2="Perimetro">
+    <formula dimensioni="2D" par1="Quadrato" id="3" par2="Perimetro" par3="00">
         <datiNecessari>
             <datoNecessario>Lato</datoNecessario>
         </datiNecessari>
         <testoFormula>lato*4</testoFormula>
     </formula>
-    <formula dimensioni="3D" par1="Parallelepipedo" id="4" par2="Volume">
+    <formula dimensioni="2D" par1="Quadrato" id="22" par2="Area" par3="00">
+        <datiNecessari>
+            <datoNecessario>Lato</datoNecessario>
+        </datiNecessari>
+        <testoFormula>lato*lato</testoFormula>
+    </formula>
+    <formula dimensioni="3D" par1="Parallelepipedo" id="4" par2="Volume" par3="00">
         <datiNecessari>
             <datoNecessario>Base</datoNecessario>
             <datoNecessario>Altezza</datoNecessario>
@@ -27,40 +33,40 @@
         </datiNecessari>
         <testoFormula>base * altezza * profondita;</testoFormula>
     </formula>
-    <formula dimensioni="3D" par1="Cubo" id="5" par2="Volume">
+    <formula dimensioni="3D" par1="Cubo" id="5" par2="Volume" par3="00">
         <datiNecessari>
             <datoNecessario>Lato</datoNecessario>
         </datiNecessari>
         <testoFormula>lato^3</testoFormula>
     </formula>
-    <formula dimensioni="3D" par1="Cilindro" id="6" par2="Volume">
+    <formula dimensioni="3D" par1="Cilindro" id="6" par2="Volume" par3="00">
         <datiNecessari>
             <datoNecessario>Raggio</datoNecessario>
             <datoNecessario>Altezza</datoNecessario>
         </datiNecessari>
-        <testoFormula>raggio^2 * pi * altezza</testoFormula>
+        <testoFormula>raggio^2 * _pi_ * altezza</testoFormula>
     </formula>
-    <formula dimensioni="3D" par1="Cono" id="7" par2="Volume">
+    <formula dimensioni="3D" par1="Cono" id="7" par2="Volume" par3="00">
         <datiNecessari>
             <datoNecessario>Raggio</datoNecessario>
             <datoNecessario>Altezza</datoNecessario>
         </datiNecessari>
         <testoFormula>(pi * raggio^2 * altezza) / 3</testoFormula>
     </formula>
-    <formula dimensioni="2D" par1="Quadrato" id="8" par2="Area">
+    <formula dimensioni="2D" par1="Quadrato" id="8" par2="Area" par3="00">
         <datiNecessari>
             <datoNecessario>Lato</datoNecessario>
         </datiNecessari>
         <testoFormula>lato^2</testoFormula>
     </formula>
-    <formula dimensioni="2D" par1="Triangolo" id="9" par2="Area">
+    <formula dimensioni="2D" par1="Triangolo" id="9" par2="Area" par3="00">
         <datiNecessari>
             <datoNecessario>Base</datoNecessario>
             <datoNecessario>Altezza</datoNecessario>
         </datiNecessari>
         <testoFormula>(base*altezza)/2</testoFormula>
     </formula>
-    <formula dimensioni="2D" par1="Trapezio" id="10" par2="Area">
+    <formula dimensioni="2D" par1="Trapezio" id="10" par2="Area" par3="00">
         <datiNecessari>
             <datoNecessario>Base_Minore</datoNecessario>
             <datoNecessario>Base_Maggiore</datoNecessario>
@@ -68,46 +74,46 @@
         </datiNecessari>
         <testoFormula>((base_minore + base_maggiore) * altezza) / 2</testoFormula>
     </formula>
-    <formula dimensioni="2D" par1="Cerchio" id="11" par2="Area">
+    <formula dimensioni="2D" par1="Cerchio" id="11" par2="Area" par3="00">
         <datiNecessari>
             <datoNecessario>Raggio</datoNecessario>
         </datiNecessari>
-        <testoFormula>raggio^2 * pi</testoFormula>
+        <testoFormula>raggio^2 * _pi_</testoFormula>
     </formula>
-    <formula dimensioni="3D" par1="Cilindro" id="12" par2="Area">
+    <formula dimensioni="3D" par1="Cilindro" id="12" par2="Area" par3="00">
         <datiNecessari>
             <datoNecessario>Raggio</datoNecessario>
             <datoNecessario>Altezza</datoNecessario>
         </datiNecessari>
-        <testoFormula>(raggio^2 * pi) * 2 + (raggio * 2 * pi) * altezza</testoFormula>
+        <testoFormula>(raggio^2 * _pi_) * 2 + (raggio * 2 * _pi_) * altezza</testoFormula>
     </formula>
-    <formula dimensioni="3D" par1="Cubo" id="13" par2="Area">
+    <formula dimensioni="3D" par1="Cubo" id="13" par2="Area" par3="00">
         <datiNecessari>
             <datoNecessario>Lato</datoNecessario>
         </datiNecessari>
         <testoFormula>lato^2 * 6</testoFormula>
     </formula>
-    <formula dimensioni="2D" par1="Triangolo Equilatero" id="14" par2="Perimetro">
+    <formula dimensioni="2D" par1="Triangolo Equilatero" id="14" par2="Perimetro" par3="00">
         <datiNecessari>
             <datoNecessario>Lato</datoNecessario>
         </datiNecessari>
         <testoFormula>lato * 3</testoFormula>
     </formula>
-    <formula dimensioni="2D" par1="Triangolo Isoscele" id="15" par2="Perimetro">
+    <formula dimensioni="2D" par1="Triangolo Isoscele" id="15" par2="Perimetro" par3="00">
         <datiNecessari>
             <datoNecessario>Base</datoNecessario>
             <datoNecessario>Cateto</datoNecessario>
         </datiNecessari>
         <testoFormula>base + (cateto * 2)</testoFormula>
     </formula>
-    <formula dimensioni="2D" par1="Triangolo Isoscele ALTEZZA" id="16" par2="Perimetro">
+    <formula dimensioni="2D" par1="Triangolo Isoscele ALTEZZA" id="16" par2="Perimetro" par3="00">
         <datiNecessari>
             <datoNecessario>Base</datoNecessario>
             <datoNecessario>Altezza</datoNecessario>
         </datiNecessari>
         <testoFormula>base + (VV(base / 2)^2 + altezza^2VV) * 2</testoFormula>
     </formula>
-    <formula dimensioni="2D" par1="Triangolo Scaleno" id="17" par2="Perimetro">
+    <formula dimensioni="2D" par1="Triangolo Scaleno" id="17" par2="Perimetro" par3="00">
         <datiNecessari>
             <datoNecessario>Lato1</datoNecessario>
             <datoNecessario>Lato2</datoNecessario>
@@ -115,7 +121,7 @@
         </datiNecessari>
         <testoFormula>lato1 + lato2 + lato3</testoFormula>
     </formula>
-    <formula dimensioni="2D " par1="Trapezio" id="18" par2="Perimetro">
+    <formula dimensioni="2D " par1="Trapezio" id="18" par2="Perimetro" par3="00">
         <datiNecessari>
             <datoNecessario>Base_Minore</datoNecessario>
             <datoNecessario>Base_Maggiore</datoNecessario>
@@ -123,19 +129,19 @@
         </datiNecessari>
         <testoFormula>base_minore + base_maggiore + (lato_obliquo * 2)</testoFormula>
     </formula>
-    <formula dimensioni="2D" par1="Cerchio" id="19" par2="Perimetro">
+    <formula dimensioni="2D" par1="Cerchio" id="19" par2="Perimetro" par3="00">
         <datiNecessari>
             <datoNecessario>Diametro</datoNecessario>
         </datiNecessari>
-        <testoFormula>diametro * pi</testoFormula>
+        <testoFormula>diametro * _pi_</testoFormula>
     </formula>
-    <formula dimensioni="2D" par1="Matematica" par2="Doppio" id="21">
+    <formula dimensioni="2D" par1="Matematica" par2="Doppio" id="21" par3="00">
         <datiNecessari>
             <datoNecessario>N</datoNecessario>
         </datiNecessari>
         <testoFormula>n * 2</testoFormula>
     </formula>
-    <formula dimensioni="2D" par1="Pianocartesiano" par2="Distanzapunti" id="21">
+    <formula dimensioni="2D" par1="Pianocartesiano" par2="Distanzapunti" id="21" par3="00">
         <datiNecessari>
             <datoNecessario>Xprimo</datoNecessario>
             <datoNecessario>Yprimo</datoNecessario>
